@@ -1,0 +1,34 @@
+option opt_defender_prepare
+{
+    initial state walk_to_center
+  {
+    decision
+    {      
+      if (isSet)
+      {
+        goto stop;
+      }
+      else
+      {
+        stay;
+      }
+    }
+    action
+    {
+      target_range =3;
+      behavior_step_forward(); 
+    }
+  }
+
+    target state stop
+  {
+    decision
+    {      
+        stay;
+    }
+    action
+    {
+      behavior_nothing();
+    }
+  }
+  }

@@ -1,0 +1,111 @@
+/** Basic behavior definitions */
+
+namespace basic_behavior("Basic Behavior")
+{
+    behavior behavior_nothing
+    {
+
+    }
+
+    behavior behavior_initialize_motors
+    {
+
+    }
+
+    behavior behavior_end_game
+    {
+
+    }
+
+    behavior behavior_initialize
+    {
+
+    }
+
+    behavior behavior_center_round_clockwise    // turn around a center in clockwise
+    {
+
+    }
+
+    behavior behavior_center_round_anticlockwise    // turn around a center in anti-clockwise
+    {
+
+    }
+
+    behavior behavior_round_clockwise
+    {
+
+    }
+
+    behavior behavior_round_anticlockwise
+    {
+
+    }
+
+
+
+    behavior behavior_walk
+    {
+
+    }
+
+    behavior behavior_step_forward
+    {
+
+    }
+
+    behavior behavior_step_backward
+    {
+
+    }
+
+    behavior behavior_step_left
+    {
+
+    }
+
+    behavior behavior_step_right
+    {
+
+    }
+
+    behavior behavior_kick_ball_soft
+    {
+
+    }
+
+    behavior behavior_kick_ball_mid
+    {
+
+    }
+
+    behavior behavior_kick_ball_strong
+    {
+
+    }
+
+    behavior behavior_rotate_before_walk
+    {
+
+    }
+
+    behavior behavior_during_left_walk
+    {
+
+    }
+
+    behavior behavior_during_right_walk
+    {
+
+    }
+
+    behavior behavior_approach_ball
+    {
+
+    }
+
+    behavior behavior_stop_walk
+    {
+
+    }
+}

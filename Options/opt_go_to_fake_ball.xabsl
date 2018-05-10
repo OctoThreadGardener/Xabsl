@@ -1,0 +1,29 @@
+// opt_go_to_fake_ball: the moving process after kicking, without knowing the exact (stationary) location of the ball
+// current strategy: walk directly ahead for 3000(?) microseconds; head up
+
+option opt_go_to_fake_ball {
+    initial state walk {
+        decision {
+            if (state_time < 3000) {
+                stay;
+            }
+            else {
+                goto walk_done;
+            }
+        }
+        action {
+            headMode = FarMid;
+            // use velocity mode: v_x = max, v_y = 0, v_z = 0
+            behavior_walk();
+        }
+    }
+
+    target state walk_done {
+        decision {
+            stay;
+        }
+        action {
+            behavior_nothing();
+        }
+    }
+}

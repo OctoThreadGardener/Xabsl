@@ -1,0 +1,78 @@
+/**	Top-level FSM	*/
+option opt_walk_with_ball
+{
+
+    initial state walk_to_center
+  {
+    decision
+    {      
+      if (isAttacker)
+      {
+        goto attacker_prepare;
+      }
+      else
+      {
+        goto defender_prepare;
+      }
+    }
+    action
+    {
+      behavior_nothing(); 
+    }
+  }
+
+    state attacker_prepare
+  {
+    decision
+    {      
+      if (state_time > 2000 && !is_robot_moving)
+      {
+        goto prepare_done;
+      }
+      else
+      {
+        stay;
+      }
+    }
+    action
+    {
+      target_range = -1;
+      target_theta = 1.57;
+      behavior_walk();
+    }
+  }
+
+    state defender_prepare
+  {
+    decision
+    {      
+      if (state_time > 2000 && !is_robot_moving)
+      {
+        goto prepare_done;
+      }
+      else
+      {
+        stay;
+      }
+    }
+    action
+    {
+      target_range = -2;
+      target_theta = 1.57;
+      behavior_walk();
+    }
+  }
+
+	target state prepare_done
+	{
+		decision
+		{			
+				stay;
+		}
+		action
+		{
+			behavior_nothing();
+		}
+	}
+  
+}

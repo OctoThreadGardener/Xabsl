@@ -1,0 +1,162 @@
+// opt_go_to_ball: Suppose the ball is already seen, go to the ball.
+
+// Input Flags: 
+//      - is_within_tol
+//      - is_left
+//      - is_near_enough
+//      - is_ready_to_kick      # not used
+//
+// Output Flags:
+//      - headMode
+
+option opt_go_to_ball
+{
+    initial state check_before_walk {
+        decision {
+            if (state_time < 100) {  // TODO: change this value
+                stay;
+            }
+            else {
+                if (is_near_enough) {
+                    // when the ball is already near (e.g. kickoff), use position mode to approach the ball directly
+                    goto approach_ball;
+                }
+                else if (is_within_tol) {
+                    if (is_left) {
+                        goto during_left_walk;
+                    }
+                    else {
+                        goto during_right_walk;
+                    }
+                }
+                else {
+                    goto rotate_before_walk;
+                }
+            }
+        }
+        action {
+            //headMode = FarMid;
+            headMode = HorizontalTrack;
+            behavior_nothing();     // wait until the flags are ready
+        }
+    }
+
+    state rotate_before_walk {
+        decision {
+            if (is_within_tol) {
+                if (is_left) {
+                    goto during_left_walk;
+                }
+                else {
+                    goto during_right_walk;
+                }
+            }
+            else {
+                stay;
+            }
+        }
+        action {
+            //headMode = FarMid;
+            headMode = HorizontalTrack;
+            behavior_rotate_before_walk();
+        }
+    }
+
+    state during_left_walk {
+        decision {
+            if (is_near_enough) {
+                goto prepare_approach_ball;
+            }
+            else {
+                if (is_left) {
+                    stay;
+                }
+                else {
+                    goto during_right_walk;
+                }
+            }
+        }
+        action {
+            headMode = BothTrack;
+            behavior_during_left_walk();
+        }
+    }
+
+    state during_right_walk {
+        decision {
+            if (is_near_enough) {
+                goto prepare_approach_ball;
+            }
+            else {
+                if (!is_left) {
+                    stay;
+                }
+                else {
+                    goto during_left_walk;
+                }
+            }
+        }
+        action {
+            headMode = BothTrack;
+            behavior_during_right_walk();
+        }
+    }
+
+    state prepare_approach_ball {
+        decision {
+            if (is_robot_moving) {
+                stay;
+            }
+            else {
+                goto go_to_ball_done;
+                //goto wait_before_approach_ball;
+            }
+        }
+        action {
+            headMode = BothTrack;
+            behavior_stop_walk();
+        }
+    }
+
+    state wait_before_approach_ball {
+        decision {
+            if (state_time < 2000) {
+                stay;
+            } else {
+                goto approach_ball;
+            }
+        }
+        action {
+            //headMode = FarMid;
+            behavior_nothing();
+        }
+    }
+
+    state approach_ball {
+        decision {
+            if (state_time < 2000) {
+                stay;
+            }
+            else {
+            if (is_robot_moving)
+            {stay;}
+            else {
+                goto go_to_ball_done;
+                }
+            }
+        }
+        action {
+            //headMode = FarMid;
+            behavior_approach_ball();
+        }
+    }
+
+    target state go_to_ball_done {
+        decision {
+            stay;
+        }
+        action {
+            behavior_nothing();
+        }
+    }
+}

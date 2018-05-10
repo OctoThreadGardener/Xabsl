@@ -1,0 +1,16 @@
+include "xabsl_symbol.xabsl";
+include "xabsl_behavior.xabsl";
+
+include "Options/opt_game_nearballadjust.xabsl";
+include "Options/opt_defender_prepare.xabsl";
+include "Options/opt_walk_with_ball.xabsl";
+include "Options/opt_near_ball_adjust_test_2.xabsl";
+include "Options/opt_penalty.xabsl";
+include "Options/opt_free_kick.xabsl";
+include "Options/opt_kick_ball.xabsl";
+include "Options/opt_search_for_ball_kick_off.xabsl";
+include "Options/opt_go_to_ball.xabsl";
+include "Options/opt_xddd_attack.xabsl";
+include "Options/opt_go_to_fake_ball.xabsl";
+
+agent Decision("Xabsl", opt_game_nearballadjust);

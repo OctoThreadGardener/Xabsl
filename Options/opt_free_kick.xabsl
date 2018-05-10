@@ -1,0 +1,76 @@
+option opt_free_kick
+{
+
+    initial state search_ball//0
+  {
+    decision
+    {      
+                     if (!action_done && sec_state_info != 1)
+                     {
+                              stay;
+                     }
+                     else if (sec_state_info == 1)
+                     {
+                              goto freeze;
+                     }
+                     else
+                     {
+                              goto near_ball_adjust;
+                     }
+    }
+    action
+    {
+                     opt_search_for_ball_kick_off(); 
+    }
+  }
+
+    state near_ball_adjust
+  {
+    decision
+    {      
+                     if (!action_done && sec_state_info != 1)
+                     {
+                              stay;
+                     }
+                     else
+                     {
+                              goto freeze;
+                     }
+    }
+    action
+    {
+                     opt_near_ball_adjust_test_2(); 
+    }
+  }
+
+     state freeze
+  {
+    decision
+    {      
+                     if (sec_state_info == 2)
+                     {
+                              goto before_kick;
+                     }
+                     else
+                     {
+                              stay;
+                     }
+    }
+    action
+    {
+                     behavior_nothing(); 
+    }
+  }
+
+     target state before_kick
+  {
+    decision
+    {      
+                     stay;
+    }
+    action
+    {
+                     behavior_nothing(); 
+    }
+  }
+}

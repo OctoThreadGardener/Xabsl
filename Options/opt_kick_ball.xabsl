@@ -1,0 +1,102 @@
+/** what to do when kick the ball */
+option opt_kick_ball
+{
+	initial state decide_kick_speed
+	{
+		decision
+		{
+			if (state_time < 1000)
+			{
+				stay;
+			}
+			else if (kick_speed == 0)
+			{
+				goto kick_ball_soft;
+			}
+                        else if (kick_speed == 1)
+                        {  
+                                goto kick_ball_mid;
+                        }
+                        else
+                        {
+                                goto kick_ball_strong;
+                        }
+		}
+		action
+		{
+                        behavior_nothing();
+		}
+	}
+
+	state kick_ball_soft
+	{
+		decision
+		{
+			if (is_robot_moving || state_time <2000)
+			{
+				stay;
+			}
+			else
+			{
+				goto kick_done;
+			}
+		}
+		action
+		{
+			headMode = CloseMid;
+			behavior_kick_ball_soft();
+		}
+	}
+
+	state kick_ball_mid
+	{
+		decision
+		{
+			if (is_robot_moving ||state_time <2000)
+			{
+				stay;
+			}
+			else
+			{
+				goto kick_done;
+			}
+		}
+		action
+		{
+			headMode = CloseMid;
+			behavior_kick_ball_mid();
+		}
+	}
+
+	state kick_ball_strong
+	{
+		decision
+		{
+			if (is_robot_moving ||state_time <2000)
+			{
+				stay;
+			}
+			else
+			{
+				goto kick_done;
+			}
+		}
+		action
+		{
+			headMode = CloseMid;
+			behavior_kick_ball_strong();
+		}
+	}
+
+	target state kick_done
+	{
+		decision
+		{
+			stay;
+		}
+		action
+		{
+			behavior_nothing();
+		}
+	}
+}
