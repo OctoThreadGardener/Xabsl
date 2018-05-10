@@ -79,3 +79,4 @@ Adds behavior: yyy (explain it)
 Notes:
 - Be sure to compile the whole project before committing!
 - Single-line commit message is NOT recommended!
+- When adding/remove symbol/behavior, remember to update `xabsl_symbol.xabsl` and `xabsl_behavior.xabsl` as well.
