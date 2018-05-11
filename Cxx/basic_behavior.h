@@ -61,15 +61,20 @@ typedef struct {
     float fGoal;
     bool SocketEnable;
 }Broadcast;
-
+#define OUTPUT currentFrame.decision_serial_output_data.received_data;
 #define __CAT_BEHAVIOR_NAME(_name) behavior_##_name
 #define _CAT_BEHAVIOR_NAME(_name) __CAT_BEHAVIOR_NAME(_name)
 #define __BEHAVIOR_BUILD_UP(_behavior) class _behavior : public BasicBehavior{\
 public:\
     _behavior(xabsl::ErrorHandler &errorHandler)\
         :xabsl::BasicBehavior(#_behavior, errorHandler){}\
-    virtual void registerParameters(){}\
-    virtual void execute();\
+    virtual void registerParameters()override{}\
+    virtual void _execute();\
+    virtual void execute()override{\
+        OUTPUT[0] = OUTPUT[1] = OUTPUT[2] = OUTPUT[3] =\
+        OUTPUT[4] = OUTPUT[5] = OUTPUT[6] = 0;\
+        _execute();\
+    }\
 }
 #define _BEHAVIOR_BUILD_UP(_behavior) __BEHAVIOR_BUILD_UP(_behavior)
 #define _BEHAVIOR(_name)  _BEHAVIOR_BUILD_UP(_CAT_BEHAVIOR_NAME(_name))

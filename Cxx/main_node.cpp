@@ -27,9 +27,9 @@ void CBonSerialReceived(const decision::SerialReceived::ConstPtr serial_input_ms
 {
     currentFrame.decision_serial_input_data = *serial_input_msg;
 
-    //    ROS_INFO("Serial input received from serial node: %f %f %f %f %f %f %f %f \n",currentFrame.decision_serial_input_data.received_data[0],currentFrame.decision_serial_input_data.received_data[1],
-    //            currentFrame.decision_serial_input_data.received_data[2],currentFrame.decision_serial_input_data.received_data[3],currentFrame.decision_serial_input_data.received_data[4],
-    //            currentFrame.decision_serial_input_data.received_data[5],currentFrame.decision_serial_input_data.received_data[6],currentFrame.decision_serial_input_data.received_data[7]);
+    //ROS_INFO("Serial input received from serial node: %f %f %f %f %f %f %f %f \n",currentFrame.decision_serial_input_data.received_data[0],currentFrame.decision_serial_input_data.received_data[1],
+    //        currentFrame.decision_serial_input_data.received_data[2],currentFrame.decision_serial_input_data.received_data[3],currentFrame.decision_serial_input_data.received_data[4],
+    //        currentFrame.decision_serial_input_data.received_data[5],currentFrame.decision_serial_input_data.received_data[6],currentFrame.decision_serial_input_data.received_data[7]);
 
     currentFrame.odom_x = currentFrame.decision_serial_input_data.received_data[0];
     currentFrame.odom_y = currentFrame.decision_serial_input_data.received_data[1];
@@ -49,18 +49,21 @@ void CBonSerialReceived(const decision::SerialReceived::ConstPtr serial_input_ms
         currentFrame.remote_switch_1 = true;
     else
         ROS_INFO("Wrong switch 1 code");
+
     if (currentFrame.decision_serial_input_data.received_data[11]==0)
         currentFrame.remote_switch_2 = false;
     else if (currentFrame.decision_serial_input_data.received_data[11]==1)
         currentFrame.remote_switch_2 = true;
     else
         ROS_INFO("Wrong switch 2 code");
+
     if (currentFrame.decision_serial_input_data.received_data[12]==0)
         currentFrame.remote_switch_3 = false;
     else if (currentFrame.decision_serial_input_data.received_data[12]==1)
         currentFrame.remote_switch_3 = true;
     else
         ROS_INFO("Wrong switch 3 code");
+        
     if (currentFrame.decision_serial_input_data.received_data[13]==0)
         currentFrame.remote_switch_4 = false;
     else if (currentFrame.decision_serial_input_data.received_data[13]==1)
@@ -72,14 +75,13 @@ void CBonSerialReceived(const decision::SerialReceived::ConstPtr serial_input_ms
 
 //double to string helper function
 string doubleToString(double number){
-
     //this function has a number input and string output
     std::stringstream ss;
     ss << number;
     return ss.str();
 }
 
-
+// This is UI do not care
 void CBonRGBImageReceived(const sensor_msgs::ImageConstPtr& Image_msg)
 {
 
@@ -103,7 +105,7 @@ void CBonRGBImageReceived(const sensor_msgs::ImageConstPtr& Image_msg)
     int width = image_raw.cols;
     int height = image_raw.rows;
 
-    image_raw.copyTo(image_raw);
+    image_raw.copyTo(image_raw);//???
 
     cv::startWindowThread();
 
@@ -112,84 +114,58 @@ void CBonRGBImageReceived(const sensor_msgs::ImageConstPtr& Image_msg)
     std::string state_description;
     cv::Scalar state_color;
 
-    switch((int)(currentFrame.state_code))
-    {   case 0:
-    {state_description = "Initialize";
-        state_color = cv::Scalar(0,0,0);
-        break;
-    }
-    case 1:
-    {
-        state_description = "Follow Trajectory 1";
-        state_color = cv::Scalar(0,255,0);
-        break;
-    }
-    case 2:
-    {
-        state_description = "Go to Pose Traj.1";
-        state_color = cv::Scalar(0,0,255);
-        break;
-    }
-    case 3:
-    {
-        state_description = "Avoid Obstacle Traj.1";
-        state_color = cv::Scalar(0,255,0);
-        break;
-    }
-    case 4:
-    {
+    switch((int)(currentFrame.state_code)){
+        case 0:
+            state_description = "Initialize";
+            state_color = cv::Scalar(0,0,0);
+            break;
+        case 1:
+            state_description = "Follow Trajectory 1";
+            state_color = cv::Scalar(0,255,0);
+            break;
+        case 2:
 
-        state_description = "Follow Trajectory 2";
-        state_color = cv::Scalar(0,0,255);
-        break;
-    }
-    case 5:
-    {
-        state_description = "Go to Pose Traj.2";
-        state_color = cv::Scalar(0,0,255);
-        break;
-    }
-    case 6:
-    {
-        state_description = "Wait for robot to stop";
-        state_color = cv::Scalar(0,0,255);
-        break;
-    }
-    case 7:
-    {
-
-        state_description = "Locate Ball";
-        state_color = cv::Scalar(128,0,127);
-        break;
-    }
-    case 8:
-    {
-        state_description = "Go to Ball";
-        state_color = cv::Scalar(255,0,0);
-        break;
-    }
-    case 9:
-    {
-        state_description = "Kick Ball";
-        state_color = cv::Scalar(128,128,0);
-        break;
-    }
-    case 10:
-    {
-        state_description = "Action Over";
-        state_color = cv::Scalar(255,255,255);
-        break;
-    }
-    case 11:
-    {
-        state_description = "Action Over";
-        state_color = cv::Scalar(255,255,255);
-        break;
-    }
-    default:
-    {
-        ROS_INFO("Unknown State");
-    }
+            state_description = "Go to Pose Traj.1";
+            state_color = cv::Scalar(0,0,255);
+            break;
+        case 3:
+            state_description = "Avoid Obstacle Traj.1";
+            state_color = cv::Scalar(0,255,0);
+            break;
+        case 4:
+            state_description = "Follow Trajectory 2";
+            state_color = cv::Scalar(0,0,255);
+            break;
+        case 5:
+            state_description = "Go to Pose Traj.2";
+            state_color = cv::Scalar(0,0,255);
+            break;
+        case 6:
+            state_description = "Wait for robot to stop";
+            state_color = cv::Scalar(0,0,255);
+            break;
+        case 7:
+            state_description = "Locate Ball";
+            state_color = cv::Scalar(128,0,127);
+            break;
+        case 8:
+            state_description = "Go to Ball";
+            state_color = cv::Scalar(255,0,0);
+            break;
+        case 9:
+            state_description = "Kick Ball";
+            state_color = cv::Scalar(128,128,0);
+            break;
+        case 10:
+            state_description = "Action Over";
+            state_color = cv::Scalar(255,255,255);
+            break;
+        case 11:
+            state_description = "Action Over";
+            state_color = cv::Scalar(255,255,255);
+            break;
+        default:
+            ROS_INFO("Unknown State");
     }
 
 
@@ -353,44 +329,42 @@ int main(int argc, char **argv)
         console_strstream << "\nround: " << ++roundCount << endl;
 
         ros::spinOnce();
-
-
-
         currentFrame.FlushData();
 
-        //        currentFrame.cannot_kick = (broadcast.InputPacket[8] == 1);
+        /****************** NOTICE: NO DECISION CODE HERE ******************/
+        //currentFrame.cannot_kick = (broadcast.InputPacket[8] == 1);
 
-        // Debug
+        // //Debug
         // currentFrame.isReady = true;
-        //        currentFrame.isGameStart = true;
-        //        currentFrame.isGameOver = false;
-        //        currentFrame.isAttacker = true;///debug*/
-        //        currentFrame.sec_state = 0;
-        //        currentFrame.sec_state_info = 0;
+        //currentFrame.isGameStart = true;
+        //currentFrame.isGameOver = false;
+        //currentFrame.isAttacker = true;///debug*/
+        //currentFrame.sec_state = 0;
+        //currentFrame.sec_state_info = 0;
 
-//        if (roundCount < 80)
-//        {
-//            //Debug
-//            currentFrame.isBallSeen = true;
-//        currentFrame.ballBearing = -0.2;
-//            currentFrame.ballRange = 4.0;
-//            currentFrame.is_within_tol = false;
-//            currentFrame.is_near_enough = false;
-//            ROS_ERROR("Phase 1");
-//        }
-//        else if ((roundCount >=80) && (roundCount<180))
-//        {
-//            currentFrame.ballBearing = -0.2;
-//            currentFrame.is_within_tol = true;
-//            currentFrame.is_left = true;
-//            currentFrame.is_near_enough = false;
-//            ROS_ERROR("Phase 2");
-//        }
-//        else if (roundCount >=180)
-//        {
-//            currentFrame.is_near_enough = true;
-//            ROS_ERROR("Phase 3");
-//        }
+        //if (roundCount < 80)
+        //{
+        //    //Debug
+        //    currentFrame.isBallSeen = true;
+        //currentFrame.ballBearing = -0.2;
+        //    currentFrame.ballRange = 4.0;
+        //    currentFrame.is_within_tol = false;
+        //    currentFrame.is_near_enough = false;
+        //    ROS_ERROR("Phase 1");
+        //}
+        //else if ((roundCount >=80) && (roundCount<180))
+        //{
+        //    currentFrame.ballBearing = -0.2;
+        //    currentFrame.is_within_tol = true;
+        //    currentFrame.is_left = true;
+        //    currentFrame.is_near_enough = false;
+        //    ROS_ERROR("Phase 2");
+        //}
+        //else if (roundCount >=180)
+        //{
+        //    currentFrame.is_near_enough = true;
+        //    ROS_ERROR("Phase 3");
+        //}
 
         currentFrame.PrintReceivedData();
         //currentFrame includes the message subscribed from the service
@@ -452,20 +426,20 @@ int main(int argc, char **argv)
             }
 
             //Debug
-//            serial_output_msg.received_data[0] = 1;
-//            serial_output_msg.received_data[1] = 0.2; //-0.15 - 0.3
-//            serial_output_msg.received_data[2] = 0.0; //-0.06 - 0.06
-//            serial_output_msg.received_data[3] = 0.2; //-0.6 - 0.6
+            //serial_output_msg.received_data[0] = 1;
+            //serial_output_msg.received_data[1] = 0.2; //-0.15 - 0.3
+            //serial_output_msg.received_data[2] = 0.0; //-0.06 - 0.06
+            //serial_output_msg.received_data[3] = 0.2; //-0.6 - 0.6
 
-//            serial_output_msg.received_data[0] = 3;
-//            serial_output_msg.received_data[1] = 0.9; //-0.15 - 0.3
-//            serial_output_msg.received_data[2] = 0.2; //-0.06 - 0.06
-//            serial_output_msg.received_data[3] = 0.0; //-0.6 - 0.6
+            //serial_output_msg.received_data[0] = 3;
+            //serial_output_msg.received_data[1] = 0.9; //-0.15 - 0.3
+            //serial_output_msg.received_data[2] = 0.2; //-0.06 - 0.06
+            //serial_output_msg.received_data[3] = 0.0; //-0.6 - 0.6
 
-//            serial_output_msg.received_data[0] = 6;
-//            serial_output_msg.received_data[1] = 0.65; //-0.15 - 0.3
-//            serial_output_msg.received_data[2] = 0.25; //-0.06 - 0.06
-//            serial_output_msg.received_data[3] = 0.0; //-0.6 - 0.6
+            //serial_output_msg.received_data[0] = 6;
+            //serial_output_msg.received_data[1] = 0.65; //-0.15 - 0.3
+            //serial_output_msg.received_data[2] = 0.25; //-0.06 - 0.06
+            //serial_output_msg.received_data[3] = 0.0; //-0.6 - 0.6
 
 
             command_to_serial_pub.publish(serial_output_msg);
@@ -608,14 +582,80 @@ void xabslEngineRegister(xabsl::Engine *pEngine, MyErrorHandler &errorHandler)
 //// Change this to send the head mode over Serial
 bool processHeadMode()
 {
-
-
-        if ((currentFrame.headMode != HorizontalTrack) &&
-                (currentFrame.headMode != VerticalTrack) &&
-                (currentFrame.headMode != BothTrack))
+    if (currentFrame.headMode == BothTrack)
+    {
+        if (currentFrame.first_time_track_ball)
         {
-            switch (currentFrame.headMode)
-            {
+            currentFrame.headAngleYaw += currentFrame.ballBearingCamera;
+            currentFrame.first_time_track_ball = false;
+        }
+        else if (((currentFrame.ballBearingCamera*180/M_PI) > 10) && (currentFrame.isBallSeen))  //if more than 10 degrees to the right, turn head right
+        {
+            currentFrame.headAngleYaw += 0.5;
+        }
+        else if (((currentFrame.ballBearingCamera*180/M_PI) < -10) && (currentFrame.isBallSeen))
+        {
+            currentFrame.headAngleYaw -= 0.5;
+        }
+        else
+        {
+            currentFrame.headAngleYaw += 0;
+        }
+        //Safety
+        if (fabs(currentFrame.headAngleYaw) >130)
+        {
+            if (currentFrame.headAngleYaw>0)
+                currentFrame.headAngleYaw = 130;
+            else
+                currentFrame.headAngleYaw = -130;
+        }
+
+        if (currentFrame.ballRange > 1.2 && currentFrame.isBallSeen == 1)  //if range more that 1 meter, head up
+        {
+
+            currentFrame.headAnglePitch = 25;
+        }
+        else if (currentFrame.ballRange <= 1.0 && currentFrame.ballRange >= 0 && currentFrame.isBallSeen == 1)
+        {
+
+            currentFrame.headAnglePitch = 60;
+        }
+        else
+        {
+            currentFrame.headAnglePitch += 0;
+        }
+
+    }
+    else if (currentFrame.headMode == HorizontalTrack)
+    {
+        if (((currentFrame.ballBearingCamera*180/M_PI) > 10) && (currentFrame.isBallSeen))  //if more than 10 degrees to the right, turn head right
+        {
+            currentFrame.headAngleYaw += 1;
+        }
+        else if (((currentFrame.ballBearingCamera*180/M_PI) < -10) && (currentFrame.isBallSeen))
+        {
+            currentFrame.headAngleYaw -= 1;
+
+        }
+        else
+        {
+            currentFrame.headAngleYaw += 0;
+        }
+        //Safety
+        if (fabs(currentFrame.headAngleYaw) >135)
+        {
+            if (currentFrame.headAngleYaw>0)
+                currentFrame.headAngleYaw = 135;
+            else
+                currentFrame.headAngleYaw = -135;
+        }
+    }
+    
+    else if (currentFrame.headMode == VerticalTrack){
+        // No: Vertical Track, No Need to do}
+    }
+    else{
+        switch (currentFrame.headMode){
             case FarLeft:
                 currentFrame.headAngleYaw = 90;
                 currentFrame.headAnglePitch = 25;
@@ -666,126 +706,9 @@ bool processHeadMode()
                 currentFrame.headAnglePitch = 55;
                 break;
             }
-        }
-        else
-        {
-//            // Calculate expected ball bearing
+    }
+    currentFrame.head_angle_yaw_list.push_back(currentFrame.headAngleYaw);
+    ROS_INFO("Pitch_request: %f, Yaw_request: %f",currentFrame.headAnglePitch, currentFrame.headAngleYaw);
 
-//            // x,y,theta 4,5,6
-//            if (broadcast.InputPacket[5] == 0)
-//            {
-//                currentFrame.expected_ball_bearing = broadcast.InputPacket[6] - asin(broadcast.InputPacket[4] / currentFrame.ballRange
-//                        *sin(-currentFrame.headAngleYaw/180*M_PI));
-//            }
-//            else
-//            {
-//                currentFrame.expected_ball_bearing = broadcast.InputPacket[6] - asin(sqrt(pow(broadcast.InputPacket[4],2)+pow(broadcast.InputPacket[5],2)) / currentFrame.ballRange
-//                        *sin(M_PI/2-currentFrame.headAngleYaw/180*M_PI-atan(broadcast.InputPacket[4]/broadcast.InputPacket[5])));
-//            }
-
-//            cout << "ballRange" << currentFrame.ballRange << endl;
-//            cout << "ballBearing" << currentFrame.ballBearing << endl;
-//            cout << "expected_ball_bearing" << currentFrame.expected_ball_bearing << endl;
-
-            if (currentFrame.headMode == BothTrack)
-            {
-//                if ( (fabs(currentFrame.ballBearing - currentFrame.expected_ball_bearing )*180/M_PI > 15) && currentFrame.isBallSeen == 1)  //if more than 10 degrees to the right, turn head right
-//                {
-//                    currentFrame.ball_moved_while_moving = true;
-//                }
-//                else
-//                {
-//                    currentFrame.ball_moved_while_moving = false;
-//                }
-
-
-                if (currentFrame.first_time_track_ball)
-                {
-                    currentFrame.headAngleYaw += currentFrame.ballBearingCamera;
-                    currentFrame.first_time_track_ball = false;
-                }
-//                else if (fabs(last_robot_orientation - broadcast.InputPacket[6])/M_PI*180 > 7)
-//                {
-//                    broadcast.OutputPacket[4] += (last_robot_orientation - broadcast.InputPacket[6])/M_PI*180;
-//                }
-                else if (((currentFrame.ballBearingCamera*180/M_PI) > 10) && (currentFrame.isBallSeen))  //if more than 10 degrees to the right, turn head right
-                {
-                    currentFrame.headAngleYaw += 0.5;
-                    //                if(currentFrame.headAnglePitch < -40)
-                    //                    broadcast.OutputPacket[4] -= 5;
-                    //                else
-                    //                    broadcast.OutputPacket[4] -= 10;
-                }
-                else if (((currentFrame.ballBearingCamera*180/M_PI) < -10) && (currentFrame.isBallSeen))
-                {
-                    currentFrame.headAngleYaw -= 0.5;
-                    //                if(currentFrame.headAnglePitch < -40)
-                    //                    broadcast.OutputPacket[4] += 5;
-                    //                else
-                    //                    broadcast.OutputPacket[4] += 10;
-                }
-                else
-                {
-                    currentFrame.headAngleYaw += 0;
-                }
-                //Safety
-                if (fabs(currentFrame.headAngleYaw) >130)
-                {
-                    if (currentFrame.headAngleYaw>0)
-                        currentFrame.headAngleYaw = 130;
-                    else
-                        currentFrame.headAngleYaw = -130;
-                }
-
-                if (currentFrame.ballRange > 1.2 && currentFrame.isBallSeen == 1)  //if range more that 1 meter, head up
-                {
-
-                    currentFrame.headAnglePitch = 25;
-                }
-                else if (currentFrame.ballRange <= 1.0 && currentFrame.ballRange >= 0 && currentFrame.isBallSeen == 1)
-                {
-
-                    currentFrame.headAnglePitch = 60;
-                }
-                else
-                {
-                    currentFrame.headAnglePitch += 0;
-                }
-
-            }
-
-
-            if (currentFrame.headMode == HorizontalTrack)
-            {
-                if (((currentFrame.ballBearingCamera*180/M_PI) > 10) && (currentFrame.isBallSeen))  //if more than 10 degrees to the right, turn head right
-                {
-                    currentFrame.headAngleYaw += 1;
-                }
-                else if (((currentFrame.ballBearingCamera*180/M_PI) < -10) && (currentFrame.isBallSeen))
-                {
-                    currentFrame.headAngleYaw -= 1;
-
-                }
-                else
-                {
-                    currentFrame.headAngleYaw += 0;
-                }
-                //Safety
-                if (fabs(currentFrame.headAngleYaw) >135)
-                {
-                    if (currentFrame.headAngleYaw>0)
-                        currentFrame.headAngleYaw = 135;
-                    else
-                        currentFrame.headAngleYaw = -135;
-                }
-
-            }
-        }
-
-       currentFrame.head_angle_yaw_list.push_back(currentFrame.headAngleYaw);
-
-
-        ROS_INFO("Pitch_request: %f, Yaw_request: %f",currentFrame.headAnglePitch, currentFrame.headAngleYaw);
-
-//        last_robot_orientation = broadcast.InputPacket[6];
+    //last_robot_orientation = broadcast.InputPacket[6];
 }

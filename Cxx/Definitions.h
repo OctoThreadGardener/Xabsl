@@ -168,7 +168,6 @@ public:
     bool is_near_enough;        // true if near enough to ball, and object tracking mode can be enabled
     bool is_ready_to_kick;      // true when near enough to kick
 
-
     // Goal
     bool isGoalSeen;
     double goalLocLeft_world_x;
@@ -177,9 +176,7 @@ public:
     double goalLocRight_world_y;
     double goalCenterRange;
     double goalCenterBearing;
-
     double goalFoundHeadAngleYaw;
-
     double robot_goal_bearing_odom;
 
     //Opponent
@@ -194,12 +191,12 @@ public:
     double robotLoc_y;
     double robotLoc_theta;
     double locConfidence;
-//    double gyroHead;
+    //double gyroHead;
     double gyroBody;
-//    double gyroInitHeadYawTheta;
+    //double gyroInitHeadYawTheta;
     double gyroInitBodyYawTheta;
-//    double gyro_body_initial;
-//    double adjust_theta;
+    //double gyro_body_initial;
+    //double adjust_theta;
     double odom_orientation;
     double odom_x;
     double odom_y;
