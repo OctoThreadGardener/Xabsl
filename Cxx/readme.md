@@ -115,7 +115,10 @@
         1. Update the Symbols in FlushData or the implemention of behavior: (everywhere is possible, but notice to prevent ugly code)
     4. For Symbols output to CXX:
         1. The Symbols might be used in everywhere, notice the timing of the symbols: it is DANGEROUS to use a symbols before it is assigned.
-4. Congratulations! Contact [Stasinopoulos Sotirios](mailto:sotstas@gmail.com) to compile the code and win RoboCup 2018
+4. Congratulations! Contact [Stasinopoulos Sotirios](mailto:sotstas@gmail.com) to compile the code and win RoboCup 2018!
 
-![](http://robocup.org/assets/frontend/robocup_logo_no_bg-4f0c91e523e6f7990464c29850b24a3c.png)
-![](http://www.robocup2018.org/assets/img/RoboCup2018_Logo_Horizontal_Red-1.jpg)
+![](https://s1.ax1x.com/2018/05/11/CBZbBd.png)
+![](https://s1.ax1x.com/2018/05/11/CBZOAI.png)
+![](https://s1.ax1x.com/2018/05/11/CBZqHA.png)
+
+![](https://s1.ax1x.com/2018/05/11/CBZuTI.jpg)
